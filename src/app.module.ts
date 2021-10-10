@@ -1,9 +1,14 @@
-import { Module } from '@nestjs/common';
+import { BadRequestException, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './modules/user/user.module';
 import configuration from './config/configuration';
+import { APP_FILTER, APP_PIPE } from '@nestjs/core';
+import ExceptionsFilter from './shared/filters/exceptions.filter';
+import ValidationPipe from './shared/pipes/validation.pipe';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 @Module({
   imports: [
@@ -24,8 +29,25 @@ import configuration from './config/configuration';
       }),
       inject: [ConfigService],
     }),
+    UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, {
+    provide: APP_FILTER,
+    useClass: ExceptionsFilter,
+  },
+  {
+    provide: APP_PIPE,
+    useFactory: () => {
+      return new ValidationPipe({
+        exceptionFactory: (errors) => new BadRequestException(errors),
+        transform: true,
+        validationError: { target: false, value: false },
+        whitelist: true,
+      });
+    },
+  },
+  AuthGuard
+],
 })
 export class AppModule {}
