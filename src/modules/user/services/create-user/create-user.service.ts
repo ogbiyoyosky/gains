@@ -7,9 +7,9 @@ import { UserService } from '../user/user.service';
 export class CreateUserService {
     constructor(private readonly userService: UserService){}
     public async execute(data: CreateUserDto) {
-        if (await this.isExistingUserName(data.userName)) throw new ConflictException("Username Already exist");
+        if (await this.isExistingUserName(data.userName)) throw new ConflictException("Username already exist");
         const userAttribute = UserFactory.createNew(data)
-        
+
         return await this.userService.save(userAttribute)
     }
 

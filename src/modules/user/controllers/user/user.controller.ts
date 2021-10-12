@@ -11,9 +11,10 @@ export class UserController {
     @Post()
     @HttpCode(201)
     public async registerUser(@Body() data: CreateUserDto) {
-        const user = await this.createUserService.execute(data);
+        await this.createUserService.execute(data);
 
-        return SuccessResponse("Successfully created an account", user);
+        return SuccessResponse("Successfully created an account");
     }
+    
 
 }

@@ -1,6 +1,7 @@
 import { Exclude, Expose } from "class-transformer";
-import { BeforeInsert, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { hashString } from "../utils/string.utils";
+import { Email } from "../../email/entities/email.entity";
+import { BeforeInsert, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { compareStringViaHash, hashString } from "../utils/string.utils";
 
 @Entity("users")
 export class User {
@@ -10,12 +11,16 @@ export class User {
 
     @Column('varchar',{ unique: true })
     userName: string;
-
+    
+    @Exclude()
     @Column('varchar')
     password: string;
 
     @Column('boolean',{default: false})
     isVerified: boolean;
+
+    @OneToMany(() => Email, email => email.user)
+    emails: Email[]
 
     @CreateDateColumn({ type: 'timestamptz' })
     createdAt: Date;
@@ -27,6 +32,10 @@ export class User {
     @BeforeInsert()
     async hashPassword() {
         this.password = await hashString(this.password);
+    }
+
+    async comparePassword(password: string): Promise<boolean> {
+        return await compareStringViaHash(this.password, password)
     }
 
 }

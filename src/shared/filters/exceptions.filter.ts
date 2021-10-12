@@ -1,20 +1,25 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, BadRequestException, HttpStatus } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, BadRequestException, HttpStatus, Logger } from '@nestjs/common';
 
 @Catch()
 export default class ExceptionsFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
+    const request = ctx.getRequest()
 
     const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
     const message = exception instanceof HttpException ? exception.message : 'Internal Server Error';
-
-    response.status(status).send({
+    const responseObj = {
       success: false,
       message,
       statusCode: status,
       errors: this.getValidationErrors(exception),
-    });
+      timestamp: new Date().toLocaleString(),
+      path: request.url,
+      method: request.method
+    }
+    Logger.error(this.logError(responseObj,request, exception))
+    response.status(status).send(responseObj);
   }
 
   getValidationErrors(exception: unknown) {
@@ -26,6 +31,16 @@ export default class ExceptionsFilter implements ExceptionFilter {
       }
     }
 
-    return [];
+    return []  
+  }
+
+
+  logError(errResponse, request, exception: unknown) {
+    const { statusCode, error } = errResponse;
+    const { method, url } = request;
+    const errorLog = `Response Code: ${statusCode} - Method: ${method} URL - ${ url} \n
+    ${JSON.stringify(request.user || 'not signed in')} \n
+    ${exception instanceof HttpException ? exception.stack : error} `
+    return errorLog
   }
 }

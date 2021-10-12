@@ -5,10 +5,16 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
 import configuration from './config/configuration';
-import { APP_FILTER, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import ExceptionsFilter from './shared/filters/exceptions.filter';
 import ValidationPipe from './shared/pipes/validation.pipe';
 import { AuthGuard } from './shared/guards/auth.guard';
+import { AuthModule } from './modules/auth/auth.module';
+import { EmailModule } from './modules/email/email.module';
+import { NotificationModule } from './modules/notification/notification.module';
+import { LoggingInterceptor } from './shared/interceptors/logging.interceptor';
+
+
 
 @Module({
   imports: [
@@ -30,11 +36,20 @@ import { AuthGuard } from './shared/guards/auth.guard';
       inject: [ConfigService],
     }),
     UserModule,
+    AuthModule,
+    EmailModule,
+    NotificationModule,
   ],
   controllers: [AppController],
-  providers: [AppService, {
+  providers: [
+  AppService, 
+  {
     provide: APP_FILTER,
     useClass: ExceptionsFilter,
+  },
+  {
+    provide: APP_INTERCEPTOR,
+    useClass: LoggingInterceptor,
   },
   {
     provide: APP_PIPE,
