@@ -18,24 +18,18 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - uses: actions/checkout@v2
-      - name: npm install, build 
-        env:
-          TEST_MONGO_URI: ${{secrets.TEST_MONGO_URI}}
-          APP_SECRET_KEY: ${{secrets.APP_SECRET_KEY}}
-          REDIS_HOST: ${{secrets.REDIS_HOST}}
-          REDIS_PORT: ${{secrets.REDIS_PORT}}
-          MAIL_HOST: ${{secret.MAIL_HOST}}
-          MAIL_PORT: ${{secret.MAIL_PORT}}
-          MAIL_USERNAME: ${{secret.MAIL_USERNAME}}
-          MAIL_PASSWORD: ${{secret.MAIL_USERNAME}}
-          DATABASE_HOST: ${{secret.DATABASE_HOST}}
-          DATABASE_PORT: ${{secret.DATABASE_PORT}}
-          DATABASE_NAME: ${{secret.DATABASE_NAME}}
-          DATABASE_USERNAME: ${{secret.DATABASE_USERNAME}}
-          DATABASE_PASSWORD: ${{secret.DATABASE_PASSWORD}}
-          ACTIVE_MAIL_SENDER: ${{secret.ACTIVE_MAIL_SENDER}}
-          
-        run: |
+    - name: Checkout
+      uses: actions/checkout@v2
+
+
+    - name: Build and test
+      run: |
           npm install
-          npm run quick-build
+          npm run build
+
+    - name: Depoly to heroku
+      uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+        heroku_email: ${{secrets.HEROKU_EMAIL}}
