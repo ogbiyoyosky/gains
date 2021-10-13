@@ -9,6 +9,7 @@ export class User {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @Exclude()
     @Column('varchar',{ unique: true })
     userName: string;
 
