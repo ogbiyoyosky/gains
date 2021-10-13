@@ -83,7 +83,7 @@ export class LoginService {
             recipients: [email],
             subject: "Login link",
             body: `Please click the link below to login
-              http://localhost:3000/api/login/tokens/${token}
+              ${process.env.BASE_URL}/api/login/tokens/${token}
             `
         })
     }
