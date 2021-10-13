@@ -8,9 +8,8 @@ export class UserService {
     constructor( @InjectRepository(User)private readonly userRepo: Repository<User>) {}
 
     async findByUserId(id: string): Promise<User | undefined> {
-        console.log("hee")
         const user = await this.userRepo.findOne({ where: { id } });
-        console.log(user)
+        
         if (!user) return undefined
     
         return user;
