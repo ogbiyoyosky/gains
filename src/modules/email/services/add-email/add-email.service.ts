@@ -1,6 +1,6 @@
-import { CACHE_MANAGER, ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
-import { EmailNotificationService } from 'src/modules/notification/services/email-notification/email-notification.service';
-import { User } from 'src/modules/user/entities/user.entity';
+import { CACHE_MANAGER, ConflictException, Inject, Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
+import { EmailNotificationService } from '../../../../modules/notification/services/email-notification/email-notification.service';
+import { User } from '../../../../modules/user/entities/user.entity';
 import { AddEmailDto } from '../../dto/add-email.dto';
 import { EmailFactory } from '../../factories/email.factory';
 import { EmailService } from '../email/email.service';
@@ -24,7 +24,7 @@ export class AddEmailService {
 
         const token = generateString(20);
 
-        await this.saveToCache(generateString(20));
+        await this.saveToCache(token, email);
 
 
         this.emailNotificationService.execute({
@@ -37,12 +37,13 @@ export class AddEmailService {
 
     }
 
-    private async saveToCache(token) {
+    private async saveToCache(token, email) {
         try {
-            await this.cache.set(`emails:${token}`, token, {ttl: this.ttlInSecs});
+            await this.cache.set(`emails:${token}`, email, {ttl: this.ttlInSecs});
             return token
         } catch(error) {
             Logger.error({error}, error.message)
+            throw new ServiceUnavailableException("Unable to add email at the moment")
         }
     }
 

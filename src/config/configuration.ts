@@ -4,6 +4,9 @@ export default () => ({
     HOST: process.env.APP_HOST,
     PORT: Number(process.env.APP_PORT) || 8080,
   },
+  mailSender: {
+    active: process.env.ACTIVE_MAIL_SENDER,
+  },
   jwt: {
     JWT_AUTH_SECRET: "secret",
     EXPIRES_IN: '1d'

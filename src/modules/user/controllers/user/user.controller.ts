@@ -1,6 +1,5 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
-import { response } from 'express';
-import { SuccessResponse } from 'src/shared/utils/response.utils';
+import { SuccessResponse } from '../../../../shared/utils/response.utils';
 import { CreateUserDto } from '../../dto/create-user.dto';
 import { CreateUserService } from '../../services/create-user/create-user.service';
 

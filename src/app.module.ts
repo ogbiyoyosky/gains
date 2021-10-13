@@ -13,6 +13,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { EmailModule } from './modules/email/email.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { LoggingInterceptor } from './shared/interceptors/logging.interceptor';
+import ResponseSerializerInterceptor from './shared/interceptors/response.interceptor';
 
 
 
@@ -46,6 +47,10 @@ import { LoggingInterceptor } from './shared/interceptors/logging.interceptor';
   {
     provide: APP_FILTER,
     useClass: ExceptionsFilter,
+  },
+  {
+    provide: APP_INTERCEPTOR,
+    useClass: ResponseSerializerInterceptor,
   },
   {
     provide: APP_INTERCEPTOR,

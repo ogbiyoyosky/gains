@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import Mail from 'nodemailer/lib/mailer';
 import { EmailNotificationService } from './email-notification.service';
 
 describe('EmailNotificationService', () => {
@@ -6,7 +7,7 @@ describe('EmailNotificationService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [EmailNotificationService],
+      providers: [Mail],
     }).compile();
 
     service = module.get<EmailNotificationService>(EmailNotificationService);

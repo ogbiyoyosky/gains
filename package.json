@@ -13,7 +13,7 @@
     "start:dev": "nest start --watch",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config ormconfig.js",
     "typeorm:migrate": "npm run typeorm migration:generate -- -n",
-    "migration:generate": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:generate -n MigrationFile  -c development",
+    "migration:generate": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:generate -n MigrationFile  -c default -d src/database/migrations",
     "typeorm:create": "npm run typeorm migration:create -- -n",
     "typeorm:run": "npm run typeorm migration:run",
     "start:debug": "nest start --debug --watch",

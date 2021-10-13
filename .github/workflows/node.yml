@@ -1,0 +1,41 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: npm install, build 
+        env:
+          TEST_MONGO_URI: ${{secrets.TEST_MONGO_URI}}
+          APP_SECRET_KEY: ${{secrets.APP_SECRET_KEY}}
+          REDIS_HOST: ${{secrets.REDIS_HOST}}
+          REDIS_PORT: ${{secrets.REDIS_PORT}}
+          MAIL_HOST: ${{secret.MAIL_HOST}}
+          MAIL_PORT: ${{secret.MAIL_PORT}}
+          MAIL_USERNAME: ${{secret.MAIL_USERNAME}}
+          MAIL_PASSWORD: ${{secret.MAIL_USERNAME}}
+          DATABASE_HOST: ${{secret.DATABASE_HOST}}
+          DATABASE_PORT: ${{secret.DATABASE_PORT}}
+          DATABASE_NAME: ${{secret.DATABASE_NAME}}
+          DATABASE_USERNAME: ${{secret.DATABASE_USERNAME}}
+          DATABASE_PASSWORD: ${{secret.DATABASE_PASSWORD}}
+          ACTIVE_MAIL_SENDER: ${{secret.ACTIVE_MAIL_SENDER}}
+          
+        run: |
+          npm install
+          npm run quick-build

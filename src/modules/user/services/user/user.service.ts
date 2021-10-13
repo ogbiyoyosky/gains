@@ -25,4 +25,8 @@ export class UserService {
     async save(user: User): Promise<User> {
         return await this.userRepo.save(user);
     }
+
+    async update(user: User, data) {
+        return await this.userRepo.save({ ...user,...data });
+    }
 }

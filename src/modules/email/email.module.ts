@@ -1,4 +1,4 @@
-import { CacheModule, Module } from '@nestjs/common';
+import { CacheModule, Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Email } from './entities/email.entity';
 import { EmailService } from './services/email/email.service';
@@ -9,10 +9,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EmailNotificationService } from '../notification/services/email-notification/email-notification.service';
 import { Mail } from '../lib/mail/mail';
 import { ConfirmEmailService } from './services/confirm-email/confirm-email.service';
-import { ConfirmEmailController } from './controllers/confirm-email/confirm-email.controller';
+import { EmailController } from './controllers/email/email.controller';
+import { UserModule } from '../user/user.module';
+import { RemoveEmailService } from './services/remove-email/remove-email.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Email]),CacheModule.registerAsync({
+  imports: [TypeOrmModule.forFeature([Email]),UserModule,CacheModule.registerAsync({
     imports: [ConfigModule],
     useFactory: async (configService: ConfigService) => ({
       store: redisStore,
@@ -22,7 +24,7 @@ import { ConfirmEmailController } from './controllers/confirm-email/confirm-emai
     }),
     inject: [ConfigService],
   }),],
-  providers: [EmailService, AddEmailService, EmailNotificationService, Mail, ConfirmEmailService],
-  controllers: [AddEmailController, ConfirmEmailController]
+  providers: [EmailService, AddEmailService, EmailNotificationService, Mail, ConfirmEmailService, Logger, RemoveEmailService],
+  controllers: [AddEmailController, EmailController]
 })
 export class EmailModule {}

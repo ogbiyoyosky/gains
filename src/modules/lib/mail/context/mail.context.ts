@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { EmailSender, IMailPayload, providerType } from "../interfaces/mail.interface";
-import providers from '../index'
 
 @Injectable()
 export class MailContext implements EmailSender<IMailPayload> {

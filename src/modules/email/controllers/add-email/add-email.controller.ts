@@ -1,7 +1,6 @@
 import { Body, Controller, Get, HttpCode, Param, Post, Req, UseGuards } from '@nestjs/common';
-import { RequestHandler } from '@nestjs/common/interfaces';
-import { AuthGuard } from 'src/shared/guards/auth.guard';
-import { SuccessResponse } from 'src/shared/utils/response.utils';
+import { AuthGuard } from '../../../../shared/guards/auth.guard';
+import { SuccessResponse } from '../../../../shared/utils/response.utils';
 import { AddEmailDto } from '../../dto/add-email.dto';
 import { AddEmailService } from '../../services/add-email/add-email.service';
 import { ConfirmEmailService } from '../../services/confirm-email/confirm-email.service';

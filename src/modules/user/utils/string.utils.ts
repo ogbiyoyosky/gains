@@ -6,7 +6,8 @@ export const hashString = async (text: string, salt = 10 ): Promise<string> => {
 } 
 
 export const compareStringViaHash = async (current: string, previous: string ): Promise<boolean> => {
-    return await bcrypt.compare(current, previous);
+    const isSame = await bcrypt.compare(previous, current);
+    return isSame;
 } 
 
 export const generateString = (len: number): string =>  {

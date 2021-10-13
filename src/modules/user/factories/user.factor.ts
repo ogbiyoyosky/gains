@@ -12,9 +12,9 @@ export class UserFactory {
     return user;
     }
 
-    static generateUserForJwt ({id, userName, isVerified}: User){
+    static generateUserForJwt ({id, userName, verifiedCount}: User){
         return {
-            id, userName, isVerified
+            id, userName, verifiedCount
         }
     }
 }

@@ -11,13 +11,13 @@ export class User {
 
     @Column('varchar',{ unique: true })
     userName: string;
-    
-    @Exclude()
-    @Column('varchar')
+
+    @Column({ type: 'varchar' })
     password: string;
 
-    @Column('boolean',{default: false})
-    isVerified: boolean;
+    @Exclude()
+    @Column('int',{default: 0})
+    verifiedCount: number;
 
     @OneToMany(() => Email, email => email.user)
     emails: Email[]
@@ -36,6 +36,12 @@ export class User {
 
     async comparePassword(password: string): Promise<boolean> {
         return await compareStringViaHash(this.password, password)
+    }
+
+    
+    @Expose({ name: 'isVerifed' })
+    get isVerified(): boolean {
+        return this.verifiedCount > 0
     }
 
 }

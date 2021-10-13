@@ -9,7 +9,6 @@ export class EmailFactory {
 
     user.emailAddress = data.email;
     user.user = data.user
-    user.isVerified = data.isVerified;
 
     return user
 

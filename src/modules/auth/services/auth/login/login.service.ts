@@ -53,7 +53,7 @@ export class LoginService {
         const user = await this.userService.findByUserName(userName);
         if (!user) throw new UnauthorizedException("Invalid credentials");
 
-        const isValidPassword = user.comparePassword(password);
+        const isValidPassword = await user.comparePassword(password);
 
         if(!isValidPassword) throw new UnauthorizedException("Invalid credentials");
 

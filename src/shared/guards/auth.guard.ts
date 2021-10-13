@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, UnauthorizedException } from "@nestjs/common";
 import * as jwt from 'jsonwebtoken';
-import { UserFactory } from "src/modules/user/factories/user.factor";
+import { UserFactory } from "../../modules/user/factories/user.factor";
 
 export class AuthGuard implements CanActivate {
     constructor(){}
@@ -22,8 +22,6 @@ export class AuthGuard implements CanActivate {
 
         const authData: any = jwt.decode(authToken, { complete: true });
         if (!authData || !authData.payload) return false;
-
-        console.log(authData.payload)
 
         request.user = UserFactory.generateUserForJwt(authData.payload);
 
