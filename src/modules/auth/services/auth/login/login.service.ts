@@ -1,4 +1,4 @@
-import { BadRequestException, CACHE_MANAGER, Inject, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, CACHE_MANAGER, ForbiddenException, Inject, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { LoginDto } from '../../../../auth/dto/login.dto';
 import { User } from '../../../../user/entities/user.entity';
 import { UserService } from '../../../../user/services/user/user.service';
@@ -77,6 +77,10 @@ export class LoginService {
         const emailExist = await this.emailService.findByEmail(email);
 
         if(!emailExist) throw new NotFoundException("Account do not exist");
+
+        if(!emailExist.isVerified) {
+            throw new ForbiddenException("Please confirm you to login");
+        }
 
         const token = await this.generateToken(email);
         this.emailNotificationService.execute({

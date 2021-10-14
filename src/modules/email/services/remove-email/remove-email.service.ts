@@ -24,7 +24,7 @@ export class RemoveEmailService {
             await queryRunner.connect();
             await queryRunner.startTransaction();
             await queryRunner.manager.remove(email);
-            if(isGmail) {
+            if(isGmail && email.isVerified) {
                 await this.userService.update(email.user, {verifiedCount: email.user.verifiedCount - 1}) 
             }
             await queryRunner.commitTransaction();

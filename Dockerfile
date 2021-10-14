@@ -12,7 +12,7 @@ USER root
 
 COPY --chown=node:node . .
 
-EXPOSE 9000
+EXPOSE 4000
 
 RUN npm run build
 
