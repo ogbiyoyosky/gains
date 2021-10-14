@@ -15,7 +15,7 @@ services:
       - APP_NAME='Gains API'
       - APP_HOST=localhost
       - DATABASE_TYPE=postgres
-      - BASE_URL=http://localhost:4000
+      - FRONTEND_URL=http://localhost:3000
       - JWT_AUTH_SECRET=secret
 
       - DATABASE_HOST=database

@@ -31,7 +31,7 @@ export class AddEmailService {
             recipients: [email],
             subject: "Confirm Email",
             body: `Please click the link below to confirm your email
-            ${process.env.BASE_URL}/api/emails/confirm/${token}
+            ${process.env.FRONTEND_URL}/auth/verify-email/${token}
             `
         })
 
