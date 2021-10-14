@@ -79,7 +79,7 @@ export class LoginService {
         if(!emailExist) throw new NotFoundException("Account do not exist");
 
         if(!emailExist.isVerified) {
-            throw new ForbiddenException("Please confirm you to login");
+            throw new ForbiddenException("Please confirm your email to login");
         }
 
         const token = await this.generateToken(email);

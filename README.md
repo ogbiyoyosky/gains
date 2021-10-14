@@ -1,9 +1,12 @@
-# Darkvadar API
+# GAINS API
 This application allows you to register, login and get film data and also comment on film data.
 
 # STEPS TO RUN APP
 ### Step 1: Start up the containers
-RUN `docker-compose up -d on the root directory of the project`
+RUN `docker-compose up -d ` 
+
+RUN `docker container exec -it gain-task-api npm run typeorm:run`
+
 
 
 
