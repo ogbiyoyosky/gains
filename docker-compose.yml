@@ -1,0 +1,57 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+    container_name: gain-task-api
+    command: npm run typeorm:run
+    command: npm run start
+    depends_on:
+      - redis
+      - database
+    restart: always
+    environment: 
+      - PORT=4000
+      - APP_NAME='Gains API'
+      - APP_HOST=localhost
+      - DATABASE_TYPE=postgres
+      - BASE_URL=http://localhost:4000
+      - JWT_AUTH_SECRET=secret
+
+      - DATABASE_HOST=database
+      - DATABASE_NAME=gains
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_PASSWORD=password
+
+      - ACTIVE_MAIL_SENDER=consoler
+
+      - MAIL_HOST=
+      - MAIL_PORT=
+      - MAIL_USERNAME=
+      - MAIL_PASSWORD=
+
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_KEY=
+
+    ports:
+      - 4000:4000
+  database:
+    image: "postgres" 
+    volumes:
+      - database-data:/var/lib/postgresql/data/ 
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=gains
+  redis:
+    image: redis:6.0.6
+    volumes:
+        - ./redis/data:/data
+    ports:
+        - 6379:6379
+    entrypoint: redis-server --appendonly yes
+
+volumes:
+  database-data: 

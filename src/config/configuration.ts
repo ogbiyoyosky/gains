@@ -8,7 +8,7 @@ export default () => ({
     active: process.env.ACTIVE_MAIL_SENDER,
   },
   jwt: {
-    JWT_AUTH_SECRET: "secret",
+    JWT_AUTH_SECRET: process.env.JWT_AUTH_SECRET,
     EXPIRES_IN: '1d'
   },
   database: {
