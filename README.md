@@ -8,6 +8,18 @@ RUN `docker-compose up -d `
 RUN `docker container exec -it gain-task-api npm run typeorm:run`
 
 
+## STEPS TO RUN LOCALLY
+
+RUN - `npm i`
+
+RUN `cp .env.example .env`
+
+ADD database credentails and redis credentials
+
+
+NOTE: ACTIVE_MAIL_SENDER = consoler
+
+You can change it to mailtrap if you have a mailtrap credentials
 
 
 ### App Features
@@ -22,4 +34,4 @@ RUN `docker container exec -it gain-task-api npm run typeorm:run`
 #### Logs can be seen on the console
 
 #### POSTMAN API Documentation.
-[Postman Api documentation](https://documenter.getpostman.com/view/6226738/TzY7dDbr)
+[Postman Api documentation](https://documenter.getpostman.com/view/6226738/UV5UidcX)
